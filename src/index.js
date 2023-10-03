@@ -4,6 +4,9 @@ const cors = require('cors');
 const {ApolloServer} = require('apollo-server-express');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
+// Для ограничения запросов
+const depthLimit = require('graphql-depth-limit');
+const { createComplexityLimitRule } = require('graphql-validation-complexity');
 
 // Импортируем локальные модули
 const db = require('./db');
@@ -42,6 +45,8 @@ db.connect(DB_HOST);
 const server = new ApolloServer({
     typeDefs,
     resolvers,
+    // Для ограничения запросов
+    validationRules: [depthLimit(5), createComplexityLimitRule(1000)],
     context: ({ req }) => {
         // Получаем токен пользователя из заголовков
         const token = req.headers.authorization;
