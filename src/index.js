@@ -1,4 +1,6 @@
 const express = require('express');
+const helmet = require('helmet');
+const cors = require('cors');
 const {ApolloServer} = require('apollo-server-express');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
@@ -10,11 +12,14 @@ const typeDefs = require('./schema');
 const resolvers = require('./resolvers');
 
 
+
 // Запускаем сервер на порте, указанном в файле .env, или на порте 4000
 const port = process.env.PORT || 4000;
 const DB_HOST = process.env.DB_HOST;
 
 const app = express();
+app.use(helmet());
+app.use(cors());
 
 // Подключаем БД
 db.connect(DB_HOST);
@@ -24,10 +29,10 @@ db.connect(DB_HOST);
   const getUser = token => {
     if (token) { 
       try {
-// Возвращаем информацию пользователя из токена 
+      // Возвращаем информацию пользователя из токена 
         return jwt.verify(token, process.env.JWT_SECRET);
       } catch (err) {
-// Если с токеном возникла проблема, выбрасываем ошибку 
+      // Если с токеном возникла проблема, выбрасываем ошибку 
        new Error('Session invalid');
       }
     }
