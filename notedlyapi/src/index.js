@@ -40,7 +40,9 @@ db.connect(DB_HOST);
       }
     }
   };
-
+  // Current IP Address (23.106.56.53/32) added!
+  // Visit Network Access to modify your settings.
+  // mongodb+srv://Simba:<password>@cluster0.x6eqgut.mongodb.net/?retryWrites=true&w=majority&appName=AtlasApp
 // Настройка Apollo Server
 const server = new ApolloServer({
     typeDefs,
